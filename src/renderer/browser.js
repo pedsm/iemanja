@@ -1,8 +1,9 @@
 const loader = require('monaco-loader')
+const state = require('electron').remote.getGlobal('state')
 const { injectMermaid } = require('../src/renderer/mermaid')
 const { mermaidAPI } = require('mermaid')
-const state = require('electron').remote.getGlobal('state')
-const { saveFile } = require('electron').remote.require('../main/fileService')
+
+const { error } = console
 
 const renderDiv = document.getElementById('renderer')
 
@@ -15,7 +16,7 @@ function handleChange(editor) {
       renderDiv.innerHTML = graph
     }, renderDiv)
   } catch (err) {
-    console.error(err)
+    error(err)
   }
 }
 
@@ -29,7 +30,7 @@ async function main() {
     language: 'mermaid'
   });
 
-  handleChange( editor)
+  handleChange(editor)
   editor.onKeyUp(e => handleChange(editor))
 }
 

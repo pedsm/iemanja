@@ -2,11 +2,11 @@
   "name": "iemanja",
   "version": "1.0.0",
   "description": "A desktop mermaid editor",
-  "main": "src/index.js",
+  "main": "src/main/index.js",
   "scripts": {
     "watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ./src/index.js",
+    "start": "electron .",
     "dev": "electron . --dev"
   },
   "repository": {

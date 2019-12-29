@@ -47,8 +47,9 @@ function injectMermaid(monaco) {
       return { suggestions: suggestions };
     }
   });
-
 }
+
+
 
 module.exports = {
   injectMermaid

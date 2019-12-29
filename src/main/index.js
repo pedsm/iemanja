@@ -1,6 +1,8 @@
-// Modules to control application life and create native browser window
+require('./menu') // Menu
+require('./state') // State
 const {app, BrowserWindow} = require('electron')
 const { join } = require('path')
+
 
 let mainWindow
 
@@ -11,7 +13,6 @@ function createWindow () {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
     }
   })
 

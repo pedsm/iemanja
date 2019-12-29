@@ -1,5 +1,5 @@
 global.state = {
-  path: '',
+  path: null,
   content: `graph TD
   A[Client] --> B[Load Balancer]
   B --> C[Server01]

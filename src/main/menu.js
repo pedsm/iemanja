@@ -1,6 +1,7 @@
 const { app, Menu } = require('electron')
 const { 
   saveFile,
+  openFile,
   exportGraph 
 } = require('./fileService')
 
@@ -25,6 +26,13 @@ const template = [
     label: 'File',
     submenu: [
       isMac ? { role: 'close' } : { role: 'quit' },
+      {
+        label: 'Open file',
+        accelerator: 'CmdOrCtrl+O',
+        click() {
+          openFile()
+        }
+      },
       {
         label: 'Save',
         accelerator: 'CmdOrCtrl+S',

@@ -1,4 +1,7 @@
+const { debug } = console
+
 function injectMermaid(monaco) {
+  debug('Injecting mermaid language')
   // Register a new language
   monaco.languages.register({ id: 'mermaid' });
 

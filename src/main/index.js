@@ -1,14 +1,11 @@
 require('./state') // State
 require('./menu') // Menu
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow } = require('electron')
 const { join } = require('path')
 
-
-let mainWindow
-
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({
+  global.window = new BrowserWindow({
     width: 1200,
     height: 600,
     webPreferences: {
@@ -16,16 +13,16 @@ function createWindow () {
     }
   })
 
-  mainWindow.loadFile(join('./views/index.html'))
+  global.window.loadFile(join('./views/index.html'))
 
   const isDev = process.argv.map(arg => arg === '--dev' || arg === '-d').reduce((a, b) => a || b)
-  if(isDev) {
-    mainWindow.webContents.openDevTools()
+  if (isDev) {
+    global.window.webContents.openDevTools()
   }
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    mainWindow = null
+  global.window.on('closed', function () {
+    global.window = null
   })
 }
 
@@ -39,7 +36,7 @@ app.on('window-all-closed', function () {
 })
 
 app.on('activate', function () {
-  if (mainWindow === null) {
+  if (global.window === null) {
     createWindow()
   }
 })

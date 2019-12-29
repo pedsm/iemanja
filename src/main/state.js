@@ -6,3 +6,5 @@ global.state = {
   B --> D[Server02]`,
   svg: ''
 }
+
+global.window = null

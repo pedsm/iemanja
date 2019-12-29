@@ -9,6 +9,13 @@ function triggerRender() {
   }
 }
 
+function setTitle(fileName) {
+  debug('Changing screen title')
+  // TODO is this vulnerable to JS injection? probably
+  global.window.webContents.executeJavaScript(`setTitle('${fileName}')`)
+}
+
 module.exports = {
   triggerRender,
+  setTitle,
 }

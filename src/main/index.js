@@ -1,4 +1,5 @@
 require('./state') // State
+require('./services/titleService') // Title
 require('./menu') // Menu
 const { app, BrowserWindow } = require('electron')
 const { join } = require('path')

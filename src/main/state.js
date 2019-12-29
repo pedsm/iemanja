@@ -4,7 +4,7 @@ global.state = {
   A[Client] --> B[Load Balancer]
   B --> C[Server01]
   B --> D[Server02]`,
-  svg: ''
+  svg: '',
 }
 
 global.window = null

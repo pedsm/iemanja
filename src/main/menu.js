@@ -1,8 +1,8 @@
 const { app, Menu } = require('electron')
-const { 
+const {
   saveFile,
   openFile,
-  exportGraph 
+  exportGraph,
 } = require('./fileService')
 
 const isMac = process.platform === 'darwin'
@@ -19,8 +19,8 @@ const template = [
       { role: 'hideothers' },
       { role: 'unhide' },
       { type: 'separator' },
-      { role: 'quit' }
-    ]
+      { role: 'quit' },
+    ],
   }] : []),
   {
     label: 'File',
@@ -31,30 +31,30 @@ const template = [
         accelerator: 'CmdOrCtrl+O',
         click() {
           openFile()
-        }
+        },
       },
       {
         label: 'Save',
         accelerator: 'CmdOrCtrl+S',
         click() {
           saveFile(global.state.path, global.state.content)
-        } 
+        },
       },
       {
         label: 'Save as...',
         accelerator: 'CmdOrCtrl+Shift+S',
         click() {
           saveFile(null, global.state.content)
-        } 
+        },
       },
       {
         label: 'Export as SVG',
         accelerator: 'CmdOrCtrl+E',
         click() {
           exportGraph(global.state.svg)
-        } 
-      }
-    ]
+        },
+      },
+    ],
   },
   { role: 'editMenu' },
   { role: 'viewMenu' },

@@ -10,18 +10,18 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
-    }
+    },
   })
 
   global.window.loadFile(join('./views/index.html'))
 
-  const isDev = process.argv.map(arg => arg === '--dev' || arg === '-d').reduce((a, b) => a || b)
+  const isDev = process.argv.map((arg) => arg === '--dev' || arg === '-d').reduce((a, b) => a || b)
   if (isDev) {
     global.window.webContents.openDevTools()
   }
 
   // Emitted when the window is closed.
-  global.window.on('closed', function () {
+  global.window.on('closed', () => {
     global.window = null
   })
 }
@@ -29,13 +29,13 @@ function createWindow() {
 app.on('ready', createWindow)
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function () {
+app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-app.on('activate', function () {
+app.on('activate', () => {
   if (global.window === null) {
     createWindow()
   }

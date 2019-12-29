@@ -1,15 +1,14 @@
-const { webContents } = require('electron')
 const { debug, error } = console
 
-function triggerRender(reason) {
+function triggerRender() {
   try {
     debug('Triggering render')
     global.window.webContents.executeJavaScript('update()')
-  } catch(e) {
+  } catch (e) {
     error(e)
   }
 }
 
 module.exports = {
-  triggerRender
+  triggerRender,
 }

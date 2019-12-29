@@ -5,10 +5,21 @@ const fs = require('fs')
 const writeFile = promisify(fs.writeFile)
 const readFile = promisify(fs.readFile)
 
-const { mermaidFilter, svgFilter } = require('./filters')
+const { mermaidFilter, svgFilter } = require('../filters')
 const { triggerRender } = require('./renderService')
 
 const { debug, error } = console
+
+async function newFile() {
+  try {
+    global.state.set('path', null)
+    global.state.set('content', 'graph TD \n\t A --> B')
+    global.state.set('bugger', '')
+    triggerRender('New file created')
+  } catch (err) {
+    error(err)
+  }
+}
 
 async function openFile() {
   try {
@@ -20,9 +31,10 @@ async function openFile() {
       debug('Open file canceled')
     }
     const filePath = filePaths[0]
-    global.state.path = filePath
-    const content = await readFile(filePath)
-    global.state.content = content.toString()
+    global.state.set('path', filePath)
+    const content = (await readFile(filePath)).toString()
+    global.state.set('content', content)
+    global.state.set('buffer', content)
     debug(`Read file ${filePath}`)
     triggerRender('New file opened')
   } catch (err) {
@@ -41,7 +53,7 @@ async function saveToFile(path, content) {
 }
 
 async function saveFile(path, content) {
-  debug(`Current path is ${global.state.path}`)
+  debug(`Current path is ${global.state.get('path')}`)
   if (path == null) {
     const { canceled, filePath } = await dialog.showSaveDialog({
       title: 'Save Mermaid file',
@@ -54,8 +66,9 @@ async function saveFile(path, content) {
     saveFile(filePath, content)
     return
   }
-  global.state.path = path
-  debug(`Global path set to ${global.state.path}`)
+  global.state.set('buffer', content)
+  global.state.set('path', path)
+  debug(`Global path set to ${global.state.get('path')}`)
   saveToFile(path, content)
 }
 
@@ -75,4 +88,5 @@ module.exports = {
   saveFile,
   exportGraph,
   openFile,
+  newFile,
 }

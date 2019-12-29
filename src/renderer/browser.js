@@ -1,7 +1,6 @@
 const loader = require('monaco-loader')
 const { mermaidAPI } = require('mermaid')
 const { getGlobal } = require('electron').remote
-
 const { injectMermaid } = require('../src/renderer/mermaid')
 
 const { debug, error } = console
@@ -12,12 +11,12 @@ let state;
 function handleChange(editor) {
   debug('Handle change start')
   const text = editor.getValue()
-  state.content = text
+  state.set('content', text)
   try {
     debug('Mermaid render start')
     debug(`Rendering \n ${text}`)
     mermaidAPI.render('graph', text, (graph) => {
-      state.svg = graph
+      state.set('svg', graph)
       renderDiv.innerHTML = graph
     }, renderDiv)
     debug('Mermaid render end')
@@ -35,7 +34,7 @@ async function main() {
   injectMermaid(monaco)
   editor = monaco.editor.create(document.getElementById('editor'), {
     theme: 'vs-dark',
-    value: state.content,
+    value: state.get('content'),
     automaticLayout: true,
     language: 'mermaid',
   });
@@ -49,7 +48,7 @@ async function main() {
 // eslint-disable-next-line
 async function update() {
   debug('Update render started')
-  editor.setValue(state.content)
+  editor.setValue(state.get('content'))
   state = getGlobal('state')
   handleChange(editor)
   debug('Update render finished')

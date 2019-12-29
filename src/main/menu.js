@@ -2,8 +2,9 @@ const { app, Menu } = require('electron')
 const {
   saveFile,
   openFile,
+  newFile,
   exportGraph,
-} = require('./fileService')
+} = require('./services/fileService')
 
 const isMac = process.platform === 'darwin'
 
@@ -34,24 +35,31 @@ const template = [
         },
       },
       {
+        label: 'New File',
+        accelerator: 'CmdOrCtrl+N',
+        click() {
+          newFile()
+        },
+      },
+      {
         label: 'Save',
         accelerator: 'CmdOrCtrl+S',
         click() {
-          saveFile(global.state.path, global.state.content)
+          saveFile(global.state.get('path'), global.state.get('content'))
         },
       },
       {
         label: 'Save as...',
         accelerator: 'CmdOrCtrl+Shift+S',
         click() {
-          saveFile(null, global.state.content)
+          saveFile(null, global.state.get('content'))
         },
       },
       {
         label: 'Export as SVG',
         accelerator: 'CmdOrCtrl+E',
         click() {
-          exportGraph(global.state.svg)
+          exportGraph(global.state.get('svg'))
         },
       },
     ],

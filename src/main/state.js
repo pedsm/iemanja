@@ -16,11 +16,11 @@ class State {
 
   set(key, value) {
     debug(`set ${key}`)
+    this.data[key] = value
     this.listenerMap[key].forEach((listener, i) => {
       debug(`triggering listener ${i} of ${key}`)
-      listener(value)
+      listener(value, this.data)
     })
-    this.data[key] = value
   }
 
   subscribe(key, listener) {
@@ -36,6 +36,7 @@ global.state = new State({
   B --> C[Server01]
   B --> D[Server02]`,
   svg: '',
+  buffer: '', // Represents the last saved file
 })
 
 global.window = null

@@ -1,8 +1,13 @@
-global.state.subscribe('path', (newValue) => {
-  if (newValue == null) {
+function updateTitle(_, state) {
+  if (state.path == null) {
     global.window.setTitle('Iemanja')
+    return
   }
-  const path = newValue.split('/')
+  const path = state.path.split('/')
   const fileName = path[path.length - 1]
-  global.window.setTitle(`Iemanja - ${fileName}`)
-})
+  const fileChanged = state.buffer !== state.content
+  global.window.setTitle(`Iemanja - ${fileName}${fileChanged ? '*' : ''}`)
+}
+
+global.state.subscribe('path', updateTitle)
+global.state.subscribe('content', updateTitle)

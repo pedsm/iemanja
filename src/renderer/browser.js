@@ -1,7 +1,6 @@
 const loader = require('monaco-loader')
 const { mermaidAPI } = require('mermaid')
 const { getGlobal } = require('electron').remote
-
 const { injectMermaid } = require('../src/renderer/mermaid')
 
 const { debug, error } = console

@@ -2,6 +2,7 @@ const { app, Menu } = require('electron')
 const {
   saveFile,
   openFile,
+  newFile,
   exportGraph,
 } = require('./services/fileService')
 
@@ -31,6 +32,13 @@ const template = [
         accelerator: 'CmdOrCtrl+O',
         click() {
           openFile()
+        },
+      },
+      {
+        label: 'New File',
+        accelerator: 'CmdOrCtrl+N',
+        click() {
+          newFile()
         },
       },
       {

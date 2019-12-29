@@ -10,6 +10,17 @@ const { triggerRender } = require('./renderService')
 
 const { debug, error } = console
 
+async function newFile() {
+  try {
+    global.state.set('path', null)
+    global.state.set('content', 'graph TD \n\t A --> B')
+    global.state.set('bugger', '')
+    triggerRender('New file created')
+  } catch (err) {
+    error(err)
+  }
+}
+
 async function openFile() {
   try {
     const { canceled, filePaths } = await dialog.showOpenDialog({
@@ -21,8 +32,9 @@ async function openFile() {
     }
     const filePath = filePaths[0]
     global.state.set('path', filePath)
-    const content = await readFile(filePath)
-    global.state.set('content', content.toString())
+    const content = (await readFile(filePath)).toString()
+    global.state.set('content', content)
+    global.state.set('buffer', content)
     debug(`Read file ${filePath}`)
     triggerRender('New file opened')
   } catch (err) {
@@ -54,6 +66,7 @@ async function saveFile(path, content) {
     saveFile(filePath, content)
     return
   }
+  global.state.set('buffer', content)
   global.state.set('path', path)
   debug(`Global path set to ${global.state.get('path')}`)
   saveToFile(path, content)
@@ -75,4 +88,5 @@ module.exports = {
   saveFile,
   exportGraph,
   openFile,
+  newFile,
 }

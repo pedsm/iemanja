@@ -1,10 +1,11 @@
 {
   "name": "iemanja",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A desktop mermaid editor",
   "main": "src/main/index.js",
   "scripts": {
-    "watch": "tsc -w",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src",
     "start": "electron .",
@@ -24,19 +25,15 @@
   "dependencies": {
     "@types/mermaid": "^8.2.1",
     "@types/node": "^13.1.0",
-    "codemirror": "^5.50.0",
-    "electron": "^7.1.7",
     "mermaid": "^8.4.4",
     "monaco-editor": "^0.19.0",
     "monaco-loader": "^1.0.0"
   },
   "devDependencies": {
+    "electron-builder": "^21.2.0",
+    "electron": "^7.1.7",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.19.1",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.7.4",
-    "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "eslint-plugin-import": "^2.19.1"
   }
 }

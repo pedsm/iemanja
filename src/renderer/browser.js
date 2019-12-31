@@ -2,6 +2,7 @@ const loader = require('monaco-loader')
 const { mermaidAPI } = require('mermaid')
 const { getGlobal } = require('electron').remote
 const { injectMermaid } = require('../src/renderer/mermaid')
+const { notify, closeNotification } = require('../src/renderer/notification')
 
 const { debug, error } = console
 const renderDiv = document.getElementById('renderer')
@@ -19,8 +20,10 @@ function handleChange(editor) {
       state.set('svg', graph)
       renderDiv.innerHTML = graph
     }, renderDiv)
+    closeNotification()
     debug('Mermaid render end')
   } catch (err) {
+    notify(err.message)
     error(err)
   }
   debug('Handle change end')

@@ -36,7 +36,7 @@ async function main() {
   const monaco = await loader()
   injectMermaid(monaco)
   editor = monaco.editor.create(document.getElementById('editor'), {
-    theme: 'vs-dark',
+    theme: 'vs',
     value: state.get('content'),
     automaticLayout: true,
     language: 'mermaid',

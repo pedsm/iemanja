@@ -1,60 +1,64 @@
 const loader = require('monaco-loader')
-const { mermaidAPI } = require('mermaid')
-const { getGlobal } = require('electron').remote
+const { ipcRenderer } = require('electron')
 const { injectMermaid } = require('../src/renderer/mermaid')
 const { notify, closeNotification } = require('../src/renderer/notification')
+const { render } = require('../src/renderer/renderService')
 
-const { debug, error } = console
-const renderDiv = document.getElementById('renderer')
+const { error } = console
+// eslint-disable-next-line
+const debug = (...args) => console.debug('Browser:', ...args)
 
-let state;
+let state = {}
+
+function setState(key, value) {
+  ipcRenderer.send('mutateState', { key, value })
+}
 
 function handleChange(editor) {
   debug('Handle change start')
   const text = editor.getValue()
-  state.set('content', text)
-  try {
-    debug('Mermaid render start')
-    debug(`Rendering \n ${text}`)
-    mermaidAPI.render('graph', text, (graph) => {
-      state.set('svg', graph)
-      renderDiv.innerHTML = graph
-    }, renderDiv)
-    closeNotification()
-    debug('Mermaid render end')
-  } catch (err) {
-    notify(err.message)
-    error(err)
-  }
+  setState('content', text)
   debug('Handle change end')
 }
 
 let editor
 async function main() {
-  debug('Main render process started')
-  state = getGlobal('state')
+  debug('Monaco start')
   const monaco = await loader()
   injectMermaid(monaco)
+  debug('Editor created')
   editor = monaco.editor.create(document.getElementById('editor'), {
     theme: 'vs',
-    value: state.get('content'),
+    value: state.content,
     automaticLayout: true,
     language: 'mermaid',
   });
+  editor.setValue('Loading...')
 
-  handleChange(editor)
   editor.onKeyUp(() => handleChange(editor))
-  debug('Main render process finished')
+  debug('Monaco end')
+  ipcRenderer.send('getState')
 }
 
-// Called by renderService
-// eslint-disable-next-line
-async function update() {
-  debug('Update render started')
-  editor.setValue(state.get('content'))
-  state = getGlobal('state')
-  handleChange(editor)
-  debug('Update render finished')
+function updateState(event, newState) {
+  debug('Receiving new state')
+  state = newState
+  try {
+    render(state.content)
+    closeNotification()
+  } catch (err) {
+    notify(err.message)
+    error(err)
+  }
+  debug(state)
 }
+
+ipcRenderer.on('forceStateChange', (event, newState) => {
+  debug('Force state update')
+  editor.setValue(newState.content)
+  updateState(event, newState)
+})
+
+ipcRenderer.on('updateState', updateState)
 
 main()

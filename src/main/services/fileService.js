@@ -6,7 +6,7 @@ const writeFile = promisify(fs.writeFile)
 const readFile = promisify(fs.readFile)
 
 const { mermaidFilter, svgFilter } = require('../filters')
-const { triggerRender } = require('./renderService')
+const { forceStateUpdate } = require('../state')
 
 const { debug, error } = console
 
@@ -14,14 +14,15 @@ async function newFile() {
   try {
     global.state.set('path', null)
     global.state.set('content', 'graph TD \n\t A --> B')
-    global.state.set('bugger', '')
-    triggerRender('New file created')
+    global.state.set('buffer', '')
+    forceStateUpdate()
   } catch (err) {
     error(err)
   }
 }
 
 async function openFile() {
+  // FIX this
   try {
     const { canceled, filePaths } = await dialog.showOpenDialog({
       title: 'Open file',
@@ -36,7 +37,7 @@ async function openFile() {
     global.state.set('content', content)
     global.state.set('buffer', content)
     debug(`Read file ${filePath}`)
-    triggerRender('New file opened')
+    forceStateUpdate()
   } catch (err) {
     error(err)
   }

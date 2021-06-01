@@ -10,6 +10,7 @@ function createWindow() {
     width: 1200,
     height: 600,
     webPreferences: {
+      contextIsolation: false, // TODO rework this to allow context isolation in the future
       nodeIntegration: true,
     },
   })

@@ -11,3 +11,4 @@ function updateTitle(_, state) {
 
 global.state.subscribe('path', updateTitle)
 global.state.subscribe('content', updateTitle)
+global.state.subscribe('buffer', updateTitle)

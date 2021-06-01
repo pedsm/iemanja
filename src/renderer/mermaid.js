@@ -1,6 +1,5 @@
 const { debug } = console
 
-
 function injectMermaid(monaco) {
   debug('Injecting mermaid language')
 
@@ -80,14 +79,14 @@ function injectMermaid(monaco) {
     {
       label: 'State diagram',
       kind: monaco.languages.CompletionItemKind.Function,
-      insertText: `stateDiagram
-  State1: The state with a note
-  note right of State1
-      Important information! You can write
-      notes.
-  end note
-  State1 --> State2
-  note left of State2 : This is the note to the left.`,
+      insertText: `stateDiagram-v2
+[*] --> Still
+Still --> [*]
+
+Still --> Moving
+Moving --> Still
+Moving --> Crash
+Crash --> [*]`,
     },
     {
       label: 'Pie chart',
@@ -151,7 +150,6 @@ function injectMermaid(monaco) {
     },
   });
 }
-
 
 module.exports = {
   injectMermaid,

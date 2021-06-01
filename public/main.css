@@ -18,10 +18,18 @@ body {
   opacity: 0;
 }
 
+#renderer {
+  display: flex;
+  overflow: scroll;
+}
+
 #graph {
   width: 100%;
-  height: 100%;
+  margin: auto;
+  padding:10px;
+  height: auto;
 }
+
 #error {
   transition-duration: 0.2s;
   position: absolute;
@@ -31,13 +39,10 @@ body {
   height: 150px;
   transition-duration: 0.4s;
 }
-#error:hover {
-  height: 80vh;
-}
 #error-msg {
   text-overflow: ellipsis;
   max-height: -webkit-fill-available;
-  overflow: hidden;
+  overflow: scroll;
   white-space: pre-line;
 }
 
